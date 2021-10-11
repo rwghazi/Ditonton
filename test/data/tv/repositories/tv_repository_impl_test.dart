@@ -199,6 +199,7 @@ void main() {
       tagline: 'Tagline',
       name: 'name',
       numberOfEpisodes: 1,
+      numberOfSeasons: 1,
       voteAverage: 1,
       voteCount: 1,
     );

@@ -12,6 +12,7 @@ class TvDetail extends Equatable {
     required this.firstAirDate,
     required this.name,
     required this.numberOfEpisodes,
+    required this.numberOfSeasons,
     required this.voteAverage,
     required this.voteCount,
   });
@@ -25,6 +26,7 @@ class TvDetail extends Equatable {
   final String firstAirDate;
   final String name;
   final int numberOfEpisodes;
+  final int numberOfSeasons;
   final double voteAverage;
   final int voteCount;
 

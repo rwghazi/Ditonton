@@ -18,6 +18,7 @@ class TvDetailResponse extends Equatable {
     required this.tagline,
     required this.name,
     required this.numberOfEpisodes,
+    required this.numberOfSeasons,
     required this.voteAverage,
     required this.voteCount,
   });
@@ -36,6 +37,7 @@ class TvDetailResponse extends Equatable {
   final String tagline;
   final String name;
   final int numberOfEpisodes;
+  final int numberOfSeasons;
   final double voteAverage;
   final int voteCount;
 
@@ -56,6 +58,7 @@ class TvDetailResponse extends Equatable {
         tagline: json["tagline"],
         name: json["name"],
         numberOfEpisodes: json["number_of_episodes"],
+        numberOfSeasons: json["number_of_seasons"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
@@ -75,6 +78,7 @@ class TvDetailResponse extends Equatable {
         "tagline": tagline,
         "name": name,
         "number_of_episodes": numberOfEpisodes,
+        "number_of_seasons":numberOfSeasons,
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };
@@ -90,6 +94,7 @@ class TvDetailResponse extends Equatable {
       firstAirDate: this.firstAirDate,
       name: this.name,
       numberOfEpisodes: this.numberOfEpisodes,
+      numberOfSeasons: this.numberOfSeasons,
       voteAverage: this.voteAverage,
       voteCount: this.voteCount,
     );

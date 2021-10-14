@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/bloc/tv/search_tv_bloc.dart';
-import 'package:search/presentation/provider/tv_search_notifier.dart';
 import 'package:core/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
 

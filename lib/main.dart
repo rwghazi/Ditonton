@@ -1,5 +1,8 @@
 import 'package:core/core.dart';
 import 'package:about/about.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search/bloc/movie/search_movie_bloc.dart';
+import 'package:search/bloc/tv/search_tv_bloc.dart';
 import 'package:search/search.dart';
 import 'package:core/presentation/pages/movie/movie_detail_page.dart';
 import 'package:core/presentation/pages/home_page.dart';
@@ -44,9 +47,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieDetailNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<MovieSearchNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedMoviesNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -62,9 +62,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<TvDetailNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<TvSearchNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<OnAirTvNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -76,6 +73,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTvNotifier>(),
         ),
+        BlocProvider(
+          create: (_) => di.locator<SearchMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<SearchTvBloc>(),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -120,7 +123,7 @@ class MyApp extends StatelessWidget {
             case SearchTvPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => SearchTvPage());
             case WatchlistTvPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => WatchlistTvPage());      
+              return MaterialPageRoute(builder: (_) => WatchlistTvPage());
             case AboutPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => AboutPage());
             default:

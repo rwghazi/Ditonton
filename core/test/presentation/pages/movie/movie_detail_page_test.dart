@@ -1,7 +1,6 @@
-import 'package:core/core.dart';
+/* import 'package:core/core.dart';
 import 'package:core/domain/movie/entities/movie.dart';
 import 'package:core/presentation/pages/movie/movie_detail_page.dart';
-import 'package:core/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -106,3 +105,4 @@ void main() {
     expect(find.text('Failed'), findsOneWidget);
   });
 }
+ */

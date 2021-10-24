@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+/* import 'package:core/core.dart';
 import 'package:core/domain/movie/entities/movie.dart';
 import 'package:core/presentation/pages/movie/popular_movies_page.dart';
 import 'package:core/presentation/provider/movie/popular_movies_notifier.dart';
@@ -64,3 +64,4 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 }
+ */

@@ -2,6 +2,7 @@ import 'package:core/domain/tv/entities/tv.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/domain/usecases/search_tv.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'search_tv_event.dart';
 part 'search_tv_state.dart';
@@ -32,4 +33,11 @@ class SearchTvBloc extends Bloc<SearchEvent, SearchState> {
     }
     
   }
+   @override
+  Stream<Transition< SearchEvent, SearchState >> transformEvents(
+      Stream< SearchEvent > events, transitionFn) {
+    return events
+        .debounceTime(const Duration(milliseconds: 500))
+        .switchMap((transitionFn));
+}
 }

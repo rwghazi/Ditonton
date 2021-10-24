@@ -2,6 +2,7 @@ import 'package:core/domain/movie/entities/movie.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/domain/usecases/search_movies.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'search_movie_event.dart';
 part 'search_movie_state.dart';
@@ -31,5 +32,12 @@ class SearchMovieBloc extends Bloc<SearchEvent, SearchState> {
       );
     }
     
+  }
+   @override
+  Stream<Transition< SearchEvent, SearchState >> transformEvents(
+      Stream< SearchEvent > events, transitionFn) {
+    return events
+        .debounceTime(const Duration(milliseconds: 500))
+        .switchMap((transitionFn));
   }
 }

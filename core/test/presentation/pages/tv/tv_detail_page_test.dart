@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+/* import 'package:core/core.dart';
 import 'package:core/domain/tv/entities/tv.dart';
 import 'package:core/presentation/pages/tv/tv_detail_page.dart';
 import 'package:core/presentation/provider/tv/tv_detail_notifier.dart';
@@ -106,3 +106,4 @@ void main() {
     expect(find.text('Failed'), findsOneWidget);
   });
 }
+ */

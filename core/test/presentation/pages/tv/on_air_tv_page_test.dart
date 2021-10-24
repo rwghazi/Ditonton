@@ -1,7 +1,7 @@
-import 'package:core/core.dart';
+/* import 'package:core/core.dart';
 import 'package:core/domain/tv/entities/tv.dart';
 import 'package:core/presentation/pages/tv/on_air_tv_page.dart';
-import 'package:core/presentation/provider/tv/on_air_tv_notifier.dart';
+import 'package:core/bloc/tv/on_air_tv_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -64,3 +64,4 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 }
+ */

@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+/* import 'package:core/core.dart';
 import 'package:core/domain/tv/entities/tv.dart';
 import 'package:core/presentation/pages/tv/popular_tv_page.dart';
 import 'package:core/presentation/provider/tv/popular_tv_notifier.dart';
@@ -64,3 +64,4 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 }
+ */

@@ -15,7 +15,7 @@ class TopRatedMoviesBloc
   Stream<TopRatedMoviesState> mapEventToState(
     TopRatedMoviesEvent event,
   ) async* {
-    if (event is FetchTopRatedMovies) {
+    if (event is TopRatedMoviesEvent) {
       yield TopRatedMoviesLoading();
       final result = await getTopRatedMovies.execute();
 

@@ -14,7 +14,7 @@ class NowplayingMoviesBloc extends Bloc<NowplayingMoviesEvent, NowplayingMoviesS
   Stream<NowplayingMoviesState> mapEventToState(
     NowplayingMoviesEvent event,
   ) async* {
-    if (event is FetchNowPlayingMovies) {
+    if (event is NowplayingMoviesEvent) {
       yield NowplayingMoviesLoading();
       final nowPlayingresult = await getNowPlayingMovies.execute();
 

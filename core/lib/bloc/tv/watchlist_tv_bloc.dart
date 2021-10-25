@@ -15,7 +15,7 @@ class WatchlistTvBloc extends Bloc<WatchlistTvEvent, WatchlistTvState> {
   Stream<WatchlistTvState> mapEventToState(
     WatchlistTvEvent event,
   ) async* {
-    if (event is FetchWatchlistTv) {
+    if (event is WatchlistTvEvent) {
       yield WatchlistTvLoading();
       final result = await getWatchlistTv.execute();
 

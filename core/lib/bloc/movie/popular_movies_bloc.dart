@@ -15,7 +15,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   Stream<PopularMoviesState> mapEventToState(
     PopularMoviesEvent event,
   ) async* {
-    if (event is FetchPopularMovies) {
+    if (event is PopularMoviesEvent) {
       yield PopularMoviesLoading();
       final result = await getPopularMovies.execute();
 

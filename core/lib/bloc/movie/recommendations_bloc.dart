@@ -11,7 +11,7 @@ class RecommendationsBloc extends Cubit<RecomendationState> {
   RecommendationsBloc(this.getMovieRecommendations)
       : super(RecomendationInitial());
 
-  Future<void> getRecomendation(int id) async {
+  Future<void> getRecommendation(int id) async {
     emit(RecomendationLoading());
     final result = await getMovieRecommendations.execute(id);
     result.fold((failure) {

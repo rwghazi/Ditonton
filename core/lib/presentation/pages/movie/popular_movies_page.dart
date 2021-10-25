@@ -15,7 +15,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        BlocProvider.of<PopularMoviesBloc>(context).add(FetchPopularMovies()));
+        BlocProvider.of<PopularMoviesBloc>(context).add(PopularMoviesEvent()));
   }
 
   @override

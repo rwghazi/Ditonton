@@ -1,6 +1,7 @@
-/* import 'package:bloc_test/bloc_test.dart';
-import 'package:core/bloc/movie_detail_bloc.dart';
-import 'package:core/domain/movie/entities/movie.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:core/bloc/movie/movie_detail_bloc.dart';
+import 'package:core/core.dart';
+import 'package:core/domain/movie/entities/movie_detail.dart';
 import 'package:core/domain/movie/usecases/get_movie_detail.dart';
 import 'package:core/domain/movie/usecases/get_movie_recommendations.dart';
 import 'package:core/domain/movie/usecases/get_watchlist_status.dart';
@@ -11,12 +12,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../dummy_data/movie/dummy_objects.dart';
 import 'movie_detail_bloc_test.mocks.dart';
 
 @GenerateMocks([
   GetMovieDetail,
-  GetMovieRecommendations,
   GetWatchListStatus,
   SaveWatchlist,
   RemoveWatchlist,
@@ -24,69 +23,115 @@ import 'movie_detail_bloc_test.mocks.dart';
 void main() {
   late MovieDetailBloc getMovieDetailBloc;
   late MockGetMovieDetail mockGetMovieDetail;
-  late MockGetMovieRecommendations mockGetMovieRecommendations;
   late MockGetWatchListStatus mockGetWatchlistStatus;
   late MockSaveWatchlist mockSaveWatchlist;
   late MockRemoveWatchlist mockRemoveWatchlist;
 
   setUp(() {
     mockGetMovieDetail = MockGetMovieDetail();
-    mockGetMovieRecommendations = MockGetMovieRecommendations();
     mockGetWatchlistStatus = MockGetWatchListStatus();
     mockSaveWatchlist = MockSaveWatchlist();
     mockRemoveWatchlist = MockRemoveWatchlist();
-    getMovieDetailBloc = MovieDetailBloc(
-      getMovieDetail:mockGetMovieDetail,
-      getMovieRecommendations: mockGetMovieRecommendations,
-      getWatchListStatus: mockGetWatchlistStatus,
-      removeWatchlist: mockRemoveWatchlist,
-      saveWatchlist: mockSaveWatchlist
-    );
+    getMovieDetailBloc = MovieDetailBloc(mockGetMovieDetail,
+        mockGetWatchlistStatus, mockSaveWatchlist, mockRemoveWatchlist);
   });
 
   final tId = 1;
 
-  final tMovie = Movie(
+  final tMovieDetail = MovieDetail(
     adult: false,
     backdropPath: 'backdropPath',
-    genreIds: [1, 2, 3],
+    genres: [],
     id: 1,
     originalTitle: 'originalTitle',
     overview: 'overview',
-    popularity: 1,
     posterPath: 'posterPath',
     releaseDate: 'releaseDate',
+    runtime: 1,
     title: 'title',
-    video: false,
     voteAverage: 1,
     voteCount: 1,
   );
-  final tMovies = <Movie>[tMovie];
 
-  void _arrangeUsecase() {
-    when(mockGetMovieDetail.execute(tId))
-        .thenAnswer((_) async => Right(testMovieDetail));
-    when(mockGetMovieRecommendations.execute(tId))
-        .thenAnswer((_) async => Right(tMovies));
-  }
-
-  group('Get movie detail', () {
+  group('Movie Detail BLoC Test', () {
     blocTest<MovieDetailBloc, MovieDetailState>(
-      'Should emit [Loading, loaded] when data is gotten successfully',
-      build: () {
-        _arrangeUsecase();
-        return getMovieDetailBloc;
-      },
-      act: (bloc) => bloc.add(FetchDetailMovie(tId)),
-      expect: () => [
-        MovieDetailLoading(),
-        //RecommendationsLoading(),
-        MovieDetailLoaded(testMovieDetail),
-        //RecommendationsLoaded(tMovies)
-      ],
-      verify: (bloc) {
-        verify(mockGetMovieDetail.execute(tId));
-      },
-    );
+        'Should emit [loading, loaded] when data is loaded successfully',
+        build: () {
+          when(mockGetMovieDetail.execute(tId))
+              .thenAnswer((_) async => Right(tMovieDetail));
+          when(mockGetWatchlistStatus.execute(tId))
+              .thenAnswer((_) async => true);
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.getDetailMovie(tId),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieDetailLoaded>()];
+    });
+
+    blocTest<MovieDetailBloc, MovieDetailState>(
+        'Should emit [loading, error] when data is failed loaded',
+        build: () {
+          when(mockGetMovieDetail.execute(tId))
+              .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+          when(mockGetWatchlistStatus.execute(tId))
+              .thenAnswer((_) async => true);
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.getDetailMovie(tId),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieDetailError>()];
+        });
   });
-} */
+
+  group('Save Movie to Watchlist Test', () {
+    blocTest<MovieDetailBloc, MovieDetailState>(
+        'Should emit [loading, success] when data is succes saved',
+        build: () {
+          when(mockSaveWatchlist.execute(tMovieDetail))
+              .thenAnswer((invocation) async => Right("Success"));
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.saveToWatchlist(tMovieDetail, true),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieWatchlist>()];
+        });
+
+    blocTest<MovieDetailBloc, MovieDetailState>(
+        'Should emit [loading, error] when data is failed to save',
+        build: () {
+          when(mockSaveWatchlist.execute(tMovieDetail))
+              .thenAnswer((invocation) async => Left(ServerFailure('Server Failure')));
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.saveToWatchlist(tMovieDetail, true),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieDetailError>()];
+        });
+  });
+
+  group('Remove Movie from Watchlist Test', () {
+    blocTest<MovieDetailBloc, MovieDetailState>(
+        'Should emit [loading, success] when data is succes removed',
+        build: () {
+          when(mockRemoveWatchlist.execute(tMovieDetail))
+              .thenAnswer((invocation) async => Right("Success"));
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.removeFromWatchlist(tMovieDetail, true),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieWatchlist>()];
+        });
+
+    blocTest<MovieDetailBloc, MovieDetailState>(
+        'Should emit [loading, error] when data is failed to removed',
+        build: () {
+          when(mockRemoveWatchlist.execute(tMovieDetail))
+              .thenAnswer((invocation) async => Left(ServerFailure('Server Failure')));
+          return getMovieDetailBloc;
+        },
+        act: (bloc) => bloc.removeFromWatchlist(tMovieDetail, true),
+        expect: () {
+          return [isA<MovieDetailLoading>(), isA<MovieDetailError>()];
+        });
+  });
+}

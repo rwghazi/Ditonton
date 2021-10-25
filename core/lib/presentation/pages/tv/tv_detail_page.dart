@@ -187,13 +187,13 @@ class DetailContent extends StatelessWidget {
                               style: kHeading6,
                             ),
                             BlocBuilder<TvRecommendationsBloc,
-                                RecomendationState>(builder: (context, state) {
-                              if (state is RecomendationLoading) {
+                                TvRecomendationState>(builder: (context, state) {
+                              if (state is TvRecomendationLoading) {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
-                              } else if (state is RecomendationLoaded) {
-                                return buildRecommendations(state.tvs);
+                              } else if (state is TvRecomendationLoaded) {
+                                return buildRecommendationCard(state.tvs);
                               } else {
                                 return Text("");
                               }
@@ -260,7 +260,7 @@ class DetailContent extends StatelessWidget {
     }
   }
 
-  Widget buildRecommendations(List<Tv> recommendations) {
+  Widget buildRecommendationCard(List<Tv> recommendations) {
     return Container(
       height: 150,
       child: ListView.builder(

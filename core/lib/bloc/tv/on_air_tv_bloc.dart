@@ -14,7 +14,7 @@ class OnAirTvBloc extends Bloc<OnAirTvEvent, OnAirTvState> {
   Stream<OnAirTvState> mapEventToState(
     OnAirTvEvent event,
   ) async* {
-    if (event is FetchOnAirTv) {
+    if (event is OnAirTvEvent) {
       yield OnAirTvLoading();
       final nowPlayingresult = await getOnAirTv.execute();
 

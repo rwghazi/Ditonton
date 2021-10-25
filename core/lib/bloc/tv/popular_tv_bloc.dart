@@ -15,7 +15,7 @@ class PopularTvBloc extends Bloc<PopularTvEvent, PopularTvState> {
   Stream<PopularTvState> mapEventToState(
     PopularTvEvent event,
   ) async* {
-    if (event is FetchPopularTv) {
+    if (event is PopularTvEvent) {
       yield PopularTvLoading();
       final result = await getPopularTv.execute();
 

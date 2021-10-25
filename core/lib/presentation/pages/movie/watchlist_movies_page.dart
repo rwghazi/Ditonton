@@ -15,7 +15,7 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => BlocProvider.of<WatchlistMovieBloc>(context).add(FetchWatchlistMovies()));
+        () => BlocProvider.of<WatchlistMovieBloc>(context).add(WatchlistMovieEvent()));
   }
 
   @override

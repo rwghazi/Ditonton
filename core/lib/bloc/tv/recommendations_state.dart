@@ -1,44 +1,44 @@
 part of 'recommendations_bloc.dart';
 
-abstract class RecomendationState extends Equatable {
-  const RecomendationState();
+abstract class TvRecomendationState extends Equatable {
+  const TvRecomendationState();
 
   @override
   List<Object> get props => [];
 }
 
-class RecomendationInitial extends RecomendationState {
-  const RecomendationInitial();
+class TvRecomendationInitial extends TvRecomendationState {
+  const TvRecomendationInitial();
 }
 
-class RecomendationLoading extends RecomendationState {
-  const RecomendationLoading();
+class TvRecomendationLoading extends TvRecomendationState {
+  const TvRecomendationLoading();
 }
 
-class RecomendationError extends RecomendationState {
+class TvRecomendationError extends TvRecomendationState {
   final String message;
-  const RecomendationError(this.message);
+  const TvRecomendationError(this.message);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is RecomendationError && other.message == message;
+    return other is TvRecomendationError && other.message == message;
   }
 
   @override
   int get hashCode => message.hashCode;
 }
 
-class RecomendationLoaded extends RecomendationState {
+class TvRecomendationLoaded extends TvRecomendationState {
   final List<Tv> tvs;
-  const RecomendationLoaded(this.tvs);
+  const TvRecomendationLoaded(this.tvs);
 
   @override
   bool operator ==(Object tv) {
     if (identical(this, tv)) return true;
 
-    return tv is RecomendationLoaded &&
+    return tv is TvRecomendationLoaded &&
         listEquals(tv.tvs, tvs);
   }
 

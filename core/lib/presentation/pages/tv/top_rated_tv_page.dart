@@ -15,7 +15,7 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => BlocProvider.of<TopRatedTvBloc>(context).add(FetchTopRatedTv()));
+        () => BlocProvider.of<TopRatedTvBloc>(context).add(TopRatedTvEvent()));
   }
 
   @override

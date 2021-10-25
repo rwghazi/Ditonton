@@ -25,7 +25,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     super.initState();
     Future.microtask(() {
       BlocProvider.of<MovieDetailBloc>(context).getDetailMovie(widget.id);
-      BlocProvider.of<RecommendationsBloc>(context).getRecomendation(widget.id);
+      BlocProvider.of<RecommendationsBloc>(context).getRecommendation(widget.id);
     });
   }
 
@@ -125,8 +125,7 @@ class DetailContent extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await BlocProvider.of<MovieDetailBloc>(
-                                          context)
+                                  BlocProvider.of<MovieDetailBloc>(context)
                                       .saveToWatchlist(movie, true);
                                 } else {
                                   await BlocProvider.of<MovieDetailBloc>(
@@ -184,7 +183,7 @@ class DetailContent extends StatelessWidget {
                                   child: CircularProgressIndicator(),
                                 );
                               } else if (state is RecomendationLoaded) {
-                                return buildRecommendations(state.movies);
+                                return buildRecommendationCard(state.movies);
                               } else {
                                 return Text("");
                               }
@@ -251,7 +250,7 @@ class DetailContent extends StatelessWidget {
     }
   }
 
-  Widget buildRecommendations(List<Movie> recommendations) {
+  Widget buildRecommendationCard(List<Movie> recommendations) {
     return Container(
       height: 150,
       child: ListView.builder(

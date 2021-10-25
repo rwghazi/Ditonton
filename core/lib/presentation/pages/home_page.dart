@@ -8,6 +8,7 @@ import 'package:core/bloc/tv/top_rated_tv_bloc.dart';
 
 import 'package:core/core.dart';
 import 'package:core/domain/movie/entities/movie.dart';
+import 'package:core/domain/movie/usecases/get_now_playing_movies.dart';
 import 'package:core/domain/tv/entities/tv.dart';
 import 'package:core/presentation/pages/movie/movie_detail_page.dart';
 import 'package:core/presentation/pages/tv/on_air_tv_page.dart';
@@ -28,12 +29,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      BlocProvider.of<NowplayingMoviesBloc>(context).add(FetchNowPlayingMovies());
-      BlocProvider.of<PopularMoviesBloc>(context).add(FetchPopularMovies());
-      BlocProvider.of<TopRatedMoviesBloc>(context).add(FetchTopRatedMovies());
-      BlocProvider.of<OnAirTvBloc>(context).add(FetchOnAirTv());
-      BlocProvider.of<PopularTvBloc>(context).add(FetchPopularTv());
-      BlocProvider.of<TopRatedTvBloc>(context).add(FetchTopRatedTv());
+      BlocProvider.of<NowplayingMoviesBloc>(context).add(NowplayingMoviesEvent());
+      BlocProvider.of<PopularMoviesBloc>(context).add(PopularMoviesEvent());
+      BlocProvider.of<TopRatedMoviesBloc>(context).add(TopRatedMoviesEvent());
+      BlocProvider.of<OnAirTvBloc>(context).add(OnAirTvEvent());
+      BlocProvider.of<PopularTvBloc>(context).add(PopularTvEvent());
+      BlocProvider.of<TopRatedTvBloc>(context).add(TopRatedTvEvent());
     });
 
   }

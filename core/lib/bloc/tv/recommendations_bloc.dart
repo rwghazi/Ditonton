@@ -6,18 +6,18 @@ import 'package:flutter/foundation.dart';
 
 part 'recommendations_state.dart';
 
-class TvRecommendationsBloc extends Cubit<RecomendationState> {
+class TvRecommendationsBloc extends Cubit<TvRecomendationState> {
   final GetTvRecommendations getTvRecommendations;
   TvRecommendationsBloc(this.getTvRecommendations)
-      : super(RecomendationInitial());
+      : super(TvRecomendationInitial());
 
   Future<void> getRecomendation(int id) async {
-    emit(RecomendationLoading());
+    emit(TvRecomendationLoading());
     final result = await getTvRecommendations.execute(id);
     result.fold((failure) {
-      emit(RecomendationError(failure.message));
+      emit(TvRecomendationError(failure.message));
     }, (result) {
-      emit(RecomendationLoaded(result));
+      emit(TvRecomendationLoaded(result));
     });
   }
 }

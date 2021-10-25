@@ -14,7 +14,7 @@ class WatchlistMovieBloc extends Bloc<WatchlistMovieEvent, WatchlistMovieState> 
   Stream<WatchlistMovieState> mapEventToState(
     WatchlistMovieEvent event,
   ) async*{
-    if (event is FetchWatchlistMovies ){
+    if (event is WatchlistMovieEvent ){
       
       yield WatchlistMoviesLoading();
       final result = await getWatchlistMovies.execute();

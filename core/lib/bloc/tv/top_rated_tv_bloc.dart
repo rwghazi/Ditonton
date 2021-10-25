@@ -15,7 +15,7 @@ class TopRatedTvBloc
   Stream<TopRatedTvState> mapEventToState(
     TopRatedTvEvent event,
   ) async* {
-    if (event is FetchTopRatedTv) {
+    if (event is TopRatedTvEvent) {
       yield TopRatedTvLoading();
       final result = await getTopRatedTv.execute();
 

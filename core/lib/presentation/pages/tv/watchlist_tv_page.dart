@@ -15,7 +15,7 @@ class _WatchlistTvPageState extends State<WatchlistTvPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        BlocProvider.of<WatchlistTvBloc>(context).add(FetchWatchlistTv()));
+        BlocProvider.of<WatchlistTvBloc>(context).add(WatchlistTvEvent()));
   }
 
   @override

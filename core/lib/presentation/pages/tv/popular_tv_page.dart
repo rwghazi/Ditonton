@@ -1,3 +1,4 @@
+import 'package:core/bloc/movie/popular_movies_bloc.dart';
 import 'package:core/bloc/tv/popular_tv_bloc.dart';
 import 'package:core/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class _PopularTvPageState extends State<PopularTvPage> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => BlocProvider.of<PopularTvBloc>(context).add(FetchPopularTv()));
+        () => BlocProvider.of<PopularTvBloc>(context).add(PopularTvEvent()));
   }
 
   @override

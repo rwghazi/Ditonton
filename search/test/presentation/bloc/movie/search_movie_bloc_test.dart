@@ -43,37 +43,38 @@ void main() {
   final tQuery = 'spiderman';
 
   blocTest<SearchMovieBloc, SearchState>(
-    'Should emit [Loading, HasData] when data is gotten successfully',
-    build: () {
-      when(mockSearchMovies.execute(tQuery))
-          .thenAnswer((_) async => Right(tMovieList));
-      return searchBloc;
-    },
-    act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
-    wait: const Duration(milliseconds: 100),
-    expect: () => [
-      SearchLoading(),
-      SearchHasData(tMovieList),
-    ],
-    verify: (bloc) {
-      verify(mockSearchMovies.execute(tQuery));
-    },
-  );
-
-  blocTest<SearchMovieBloc, SearchState>(
-    'Should emit [Loading, Error] when get search is unsuccessful',
-    build: () {
-      when(mockSearchMovies.execute(tQuery))
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-      return searchBloc;
-    },
-    act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
-    expect: () => [
-      SearchLoading(),
-      SearchError('Server Failure'),
-    ],
-    verify: (bloc) {
-      verify(mockSearchMovies.execute(tQuery));
-    },
-  );
+  'Should emit [Loading, HasData] when data is gotten successfully',
+  build: () {
+    when(mockSearchMovies.execute(tQuery))
+        .thenAnswer((_) async => Right(tMovieList));
+    return searchBloc;
+  },
+  act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
+  wait: const Duration(milliseconds: 500),
+  expect: () => [
+    SearchLoading(),
+    SearchHasData(tMovieList),
+  ],
+  verify: (bloc) {
+    verify(mockSearchMovies.execute(tQuery));
+  },
+);
+ 
+blocTest<SearchMovieBloc, SearchState>(
+  'Should emit [Loading, Error] when get search is unsuccessful',
+  build: () {
+    when(mockSearchMovies.execute(tQuery))
+        .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+    return searchBloc;
+  },
+  act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
+  wait: const Duration(milliseconds: 500),
+  expect: () => [
+    SearchLoading(),
+    SearchError('Server Failure'),
+  ],
+  verify: (bloc) {
+    verify(mockSearchMovies.execute(tQuery));
+  },
+);
 }

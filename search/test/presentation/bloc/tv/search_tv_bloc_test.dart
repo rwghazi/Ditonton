@@ -34,7 +34,7 @@ void main() {
     firstAirDate: 'firstAirDate',
     voteAverage: 1.0,
     voteCount: 1,
-    name: 'name', 
+    name: 'name',
   );
   final tTvList = <Tv>[tTvModel];
   final tQuery = 'spiderman';
@@ -47,7 +47,7 @@ void main() {
       return searchBloc;
     },
     act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
-    wait: const Duration(milliseconds: 100),
+    wait: const Duration(milliseconds: 500),
     expect: () => [
       SearchLoading(),
       SearchHasData(tTvList),
@@ -65,6 +65,7 @@ void main() {
       return searchBloc;
     },
     act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
+    wait: const Duration(milliseconds: 500),
     expect: () => [
       SearchLoading(),
       SearchError('Server Failure'),

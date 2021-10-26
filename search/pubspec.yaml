@@ -10,8 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  core:
-    path: ../core
+  movie:
+    path: ../movie
+  tv:
+    path: ../tv
   dartz: ^0.10.0
   provider: ^6.0.1
   mockito: ^5.0.15

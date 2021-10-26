@@ -183,13 +183,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  core:
-    dependency: "direct main"
-    description:
-      path: "../core"
-      relative: true
-    source: path
-    version: "0.0.1"
   coverage:
     dependency: transitive
     description:
@@ -264,7 +257,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.3.0"
+    version: "7.3.1"
   flutter_blurhash:
     dependency: transitive
     description:
@@ -403,6 +396,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
+  movie:
+    dependency: "direct main"
+    description:
+      path: "../movie"
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -681,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  tv:
+    dependency: "direct main"
+    description:
+      path: "../tv"
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:

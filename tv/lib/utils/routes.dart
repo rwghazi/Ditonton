@@ -4,5 +4,3 @@ const TOP_RATED_TV_ROUTE = '/top-rated-tv';
 const TV_DETAIL_ROUTE = '/detail-tv';
 const SEARCH_TV_ROUTE = '/search-tv';
 const WATCHLIST_TV = '/watchlist-tv';
-
-const ABOUT_ROUTE = '/about';

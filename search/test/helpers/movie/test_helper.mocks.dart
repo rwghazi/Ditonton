@@ -6,22 +6,19 @@ import 'dart:async' as _i6;
 import 'dart:convert' as _i16;
 import 'dart:typed_data' as _i17;
 
-import 'package:core/core.dart' as _i7;
-import 'package:core/data/movie/datasources/db/movie_database_helper.dart'
-    as _i14;
-import 'package:core/data/movie/datasources/movie_local_data_source.dart'
-    as _i12;
-import 'package:core/data/movie/datasources/movie_remote_data_source.dart'
-    as _i10;
-import 'package:core/data/movie/models/movie_detail_model.dart' as _i3;
-import 'package:core/data/movie/models/movie_model.dart' as _i11;
-import 'package:core/data/movie/models/movie_table.dart' as _i13;
-import 'package:core/domain/movie/entities/movie.dart' as _i8;
-import 'package:core/domain/movie/entities/movie_detail.dart' as _i9;
-import 'package:core/domain/movie/repositories/movie_repository.dart' as _i5;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:movie/data/datasources/db/movie_database_helper.dart' as _i14;
+import 'package:movie/data/datasources/movie_local_data_source.dart' as _i12;
+import 'package:movie/data/datasources/movie_remote_data_source.dart' as _i10;
+import 'package:movie/data/models/movie_detail_model.dart' as _i3;
+import 'package:movie/data/models/movie_model.dart' as _i11;
+import 'package:movie/data/models/movie_table.dart' as _i13;
+import 'package:movie/domain/entities/movie.dart' as _i8;
+import 'package:movie/domain/entities/movie_detail.dart' as _i9;
+import 'package:movie/domain/repositories/movie_repository.dart' as _i5;
+import 'package:movie/utils/failure.dart' as _i7;
 import 'package:sqflite/sqflite.dart' as _i15;
 
 // ignore_for_file: avoid_redundant_argument_values

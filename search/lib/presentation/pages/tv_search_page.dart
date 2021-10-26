@@ -1,7 +1,7 @@
-import 'package:core/core.dart';
+import 'package:tv/tv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/bloc/tv/search_tv_bloc.dart';
-import 'package:core/presentation/widgets/tv_card_list.dart';
+import 'package:tv/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
 
 class SearchTvPage extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/domain/tv/entities/tv.dart';
+import 'package:tv/domain/entities/tv.dart';
 import 'package:search/domain/usecases/search_tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

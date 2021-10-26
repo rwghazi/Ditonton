@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  core:
-    path: ../core
+  movie:
+    path: ../movie
 publish_to: none
 
 dev_dependencies:

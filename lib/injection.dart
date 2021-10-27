@@ -1,3 +1,7 @@
+import 'package:ditonton/bloc/search_movie_bloc.dart';
+import 'package:ditonton/bloc/search_tv_bloc.dart';
+import 'package:ditonton/domain/usecases/search_movies.dart';
+import 'package:ditonton/domain/usecases/search_tv.dart';
 import 'package:movie/bloc/nowplaying_movies_bloc.dart';
 import 'package:movie/bloc/popular_movies_bloc.dart';
 import 'package:movie/bloc/top_rated_movies_bloc.dart';
@@ -38,9 +42,6 @@ import 'package:tv/domain/usecases/get_on_air_tv.dart';
 import 'package:tv/domain/usecases/get_popular_tv.dart';
 import 'package:tv/domain/usecases/get_watchlist_tv.dart';
 import 'package:tv/domain/repositories/tv_repository.dart';
-import 'package:search/bloc/movie/search_movie_bloc.dart';
-import 'package:search/bloc/tv/search_tv_bloc.dart';
-import 'package:search/search.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 

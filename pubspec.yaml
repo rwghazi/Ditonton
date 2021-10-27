@@ -29,8 +29,6 @@ dependencies:
     path: movie
   tv:
     path: tv
-  search:
-    path: search
   flutter_bloc: ^7.3.0
   firebase_core: ^1.7.0
   firebase_crashlytics: ^2.2.3
@@ -54,6 +52,7 @@ dependencies:
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
+  bloc_test: ^8.3.0
   flutter_test:
     sdk: flutter
   integration_test: 

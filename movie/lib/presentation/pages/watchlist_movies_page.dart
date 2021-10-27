@@ -34,6 +34,9 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
               );
             } else if (state is WatchlistMoviesLoaded) {
               final result = state.result;
+              if (result.length == 0){
+                return Center(child: Text("Nothing to see here"));
+              }
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final movie = result[index];

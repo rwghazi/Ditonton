@@ -1,3 +1,7 @@
+import 'package:ditonton/bloc/search_movie_bloc.dart';
+import 'package:ditonton/bloc/search_tv_bloc.dart';
+import 'package:ditonton/presentation/pages/movie_search_page.dart';
+import 'package:ditonton/presentation/pages/tv_search_page.dart';
 import 'package:movie/bloc/nowplaying_movies_bloc.dart';
 import 'package:movie/bloc/popular_movies_bloc.dart';
 import 'package:movie/bloc/top_rated_movies_bloc.dart';
@@ -10,8 +14,6 @@ import 'package:tv/bloc/popular_tv_bloc.dart';
 import 'package:tv/bloc/top_rated_tv_bloc.dart';
 import 'package:tv/bloc/tv_detail_bloc.dart';
 import 'package:tv/bloc/watchlist_tv_bloc.dart';
-import 'package:search/bloc/movie/search_movie_bloc.dart';
-import 'package:search/bloc/tv/search_tv_bloc.dart';
 import 'package:movie/presentation/pages/movie_detail_page.dart';
 import 'package:movie/presentation/pages/popular_movies_page.dart';
 import 'package:tv/presentation/pages/on_air_tv_page.dart';
@@ -22,7 +24,6 @@ import 'package:tv/presentation/pages/tv_detail_page.dart';
 import 'package:tv/presentation/pages/watchlist_tv_page.dart';
 import 'package:tv/presentation/pages/top_rated_tv_page.dart';
 import 'package:movie/movie.dart';
-import 'package:search/search.dart';
 import 'package:about/about.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +31,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'injection.dart' as di;
-import 'home_page.dart';
+import 'presentation/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

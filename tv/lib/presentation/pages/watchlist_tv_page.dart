@@ -34,6 +34,9 @@ class _WatchlistTvPageState extends State<WatchlistTvPage> {
               );
             } else if (state is WatchlistTvLoaded) {
               final result = state.result;
+              if (result.length == 0){
+                return Center(child: Text("Nothing to see here"));
+              }
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = result[index];

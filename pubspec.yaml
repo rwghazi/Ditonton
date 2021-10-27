@@ -25,10 +25,14 @@ dependencies:
     sdk: flutter
   about:
     path: about
-  core:
-    path: core
-  search:
-    path: search
+  movie:
+    path: movie
+  tv:
+    path: tv
+  flutter_bloc: ^7.3.0
+  firebase_core: ^1.7.0
+  firebase_crashlytics: ^2.2.3
+  rxdart: ^0.27.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,7 +41,7 @@ dependencies:
   http: ^0.13.3
   provider: ^6.0.1
   dartz: ^0.10.0-nullsafety.2
-  equatable: ^2.0.2
+  equatable: ^2.0.3
   google_fonts: ^2.1.0
   flutter_rating_bar: ^4.0.0
   cached_network_image: ^3.0.0
@@ -48,8 +52,12 @@ dependencies:
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
+  bloc_test: ^8.3.0
   flutter_test:
     sdk: flutter
+  integration_test: 
+    sdk: flutter
+    version: ^0.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tv/bloc/recommendations_bloc.dart';
+import 'package:tv/presentation/bloc/recommendations_bloc.dart';
+import 'package:tv/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:tv/tv.dart';
 import 'package:tv/domain/entities/genre.dart';
 import 'package:tv/domain/entities/tv.dart';
 import 'package:tv/domain/entities/tv_detail.dart';
-import 'package:tv/bloc/tv_detail_bloc.dart';
+import 'package:tv/presentation/bloc/tv_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,63 +26,58 @@ class _TvDetailPageState extends State<TvDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      BlocProvider.of<TvDetailBloc>(context).getDetailTv(widget.id);
-      BlocProvider.of<TvRecommendationsBloc>(context).getRecomendation(widget.id);
+      BlocProvider.of<TvDetailBloc>(context, listen: false)
+        ..add(FetchTvDetail(widget.id));
+      BlocProvider.of<WatchlistTvBloc>(context, listen: false)
+        ..add(LoadWatchListStatus(widget.id));
+      BlocProvider.of<TvRecommendationBloc>(context, listen: false)
+        ..add(FetchTvRecomendation(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    TvDetailState tvDetailState = context.watch<TvDetailBloc>().state;
+    TvRecomendationState tvRecomendationState =
+        context.watch<TvRecommendationBloc>().state;
+    bool isAddedToWatchList = context.select<WatchlistTvBloc, bool>(
+        (watchlistBloc) => (watchlistBloc.state is WatchlistTvStatus)
+            ? (watchlistBloc.state as WatchlistTvStatus).result
+            : false);
     return Scaffold(
-      body: BlocConsumer<TvDetailBloc, TvDetailState>(
-        listener: (context, state) {
-          if (state is TvDetailError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-          } else if (state is TvWatchlist) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.message),
-              duration: Duration(seconds: 1),
-            ));
-          }
-        },
-        builder: (context, state) {
-          if (state is TvDetailLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is TvDetailLoaded) {
-            final tv = state.result;
-            return SafeArea(
-              child: DetailContent(
-                tv,
-                state.isAddedToWatchlist,
-              ),
-            );
-          } else if (state is TvWatchlist) {
-            final tv = state.tv;
-            return SafeArea(
-              child: DetailContent(
-                tv,
-                state.isAddedToWatchlist,
-              ),
-            );
-          } else if (state is TvDetailError) {
-            return Text(state.message);
-          } else {
-            return Text("");
-          }
-        },
-      ),
-    );
+        body: tvDetailState is TvDetailLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : tvDetailState is TvDetailError
+                ? Center(
+                    child: Text(tvDetailState.message),
+                  )
+                : (tvDetailState is TvDetailLoaded)
+                    ? SafeArea(
+                        child: DetailContent(
+                          tvDetailState.result,
+                          isAddedToWatchList,
+                          tvRecomendationState is TvRecomendationLoaded
+                              ? tvRecomendationState.tvs
+                              : List.empty(),
+                        ),
+                      )
+                    : const Center(
+                        child: Text("Nothing to see here"),
+                      ));
   }
 }
 
 class DetailContent extends StatelessWidget {
   final TvDetail tv;
   final bool isAddedWatchlist;
+  final List<Tv> tvRecommendations;
+  
+  static const watchlistAddSuccessMessage = 'Added to Watchlist';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
 
-  DetailContent(this.tv, this.isAddedWatchlist);
+  DetailContent(this.tv, this.isAddedWatchlist, this.tvRecommendations);
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +120,40 @@ class DetailContent extends StatelessWidget {
                               style: kHeading5,
                             ),
                             ElevatedButton(
-                              onPressed: () async {
+                              onPressed: () {
                                 if (!isAddedWatchlist) {
-                                  await BlocProvider.of<TvDetailBloc>(context)
-                                      .saveToWatchlist(tv, true);
+                                  BlocProvider.of<WatchlistTvBloc>(context)
+                                    ..add(AddToWatchList(tv));
                                 } else {
-                                  await BlocProvider.of<TvDetailBloc>(context)
-                                      .removeFromWatchlist(tv, false);
+                                  BlocProvider.of<WatchlistTvBloc>(context)
+                                    ..add(RemoveWatchList(tv));
+                                }
+
+                                final message = context
+                                    .select<WatchlistTvBloc, String>((bloc) =>
+                                        (bloc.state is WatchlistTvStatus)
+                                            ? (bloc.state as WatchlistTvStatus)
+                                                        .result ==
+                                                    false
+                                                ? watchlistAddSuccessMessage
+                                                : watchlistRemoveSuccessMessage
+                                            : '');
+
+                                if (message == watchlistAddSuccessMessage ||
+                                    message == watchlistRemoveSuccessMessage) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(message),
+                                    duration: Duration(seconds: 1),
+                                  ));
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Text(message),
+                                        );
+                                      });
                                 }
                               },
                               child: Row(
@@ -186,8 +209,9 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            BlocBuilder<TvRecommendationsBloc,
-                                TvRecomendationState>(builder: (context, state) {
+                            BlocBuilder<TvRecommendationBloc,
+                                    TvRecomendationState>(
+                                builder: (context, state) {
                               if (state is TvRecomendationLoading) {
                                 return Center(
                                   child: CircularProgressIndicator(),
@@ -247,17 +271,6 @@ class DetailContent extends StatelessWidget {
     }
 
     return result.substring(0, result.length - 2);
-  }
-
-  String _showDuration(int runtime) {
-    final int hours = runtime ~/ 60;
-    final int minutes = runtime % 60;
-
-    if (hours > 0) {
-      return '${hours}h ${minutes}m';
-    } else {
-      return '${minutes}m';
-    }
   }
 
   Widget buildRecommendationCard(List<Tv> recommendations) {

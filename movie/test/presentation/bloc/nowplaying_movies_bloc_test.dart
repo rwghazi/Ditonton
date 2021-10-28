@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:movie/bloc/nowplaying_movies_bloc.dart';
+import 'package:movie/presentation/bloc/nowplaying_movies_bloc.dart';
 import 'package:movie/movie.dart';
 import 'package:movie/domain/entities/movie.dart';
 import 'package:movie/domain/usecases/get_now_playing_movies.dart';

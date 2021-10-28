@@ -1,3 +1,3 @@
 # Ditonton
 
-Proyek awal - Dicoding MFDE
+Proyek awal & akhir - Dicoding MFDE

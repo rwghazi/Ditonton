@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:movie/bloc/movie_detail_bloc.dart';
-import 'package:movie/bloc/recommendations_bloc.dart';
+import 'package:movie/presentation/bloc/movie_detail_bloc.dart';
+import 'package:movie/presentation/bloc/recommendations_bloc.dart';
+import 'package:movie/presentation/bloc/watchlist_movie_bloc.dart';
 import 'package:movie/movie.dart';
 import 'package:movie/domain/entities/genre.dart';
 import 'package:movie/domain/entities/movie.dart';
@@ -24,63 +25,58 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      BlocProvider.of<MovieDetailBloc>(context).getDetailMovie(widget.id);
-      BlocProvider.of<RecommendationsBloc>(context).getRecommendation(widget.id);
+      BlocProvider.of<MovieDetailBloc>(context, listen: false)
+        ..add(FetchMovieDetail(widget.id));
+      BlocProvider.of<WatchlistMovieBloc>(context, listen: false)
+        ..add(LoadWatchListStatus(widget.id));
+      BlocProvider.of<MovieRecommendationBloc>(context, listen: false)
+        ..add(FetchMovieRecommendation(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    MovieDetailState movieDetailState = context.watch<MovieDetailBloc>().state;
+    RecommendationState recommendationState =
+        context.watch<MovieRecommendationBloc>().state;
+    bool isAddedToWatchList = context.select<WatchlistMovieBloc, bool>(
+        (watchlistBloc) => (watchlistBloc.state is WatchlistMovieStatus)
+            ? (watchlistBloc.state as WatchlistMovieStatus).result
+            : false);
     return Scaffold(
-      body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
-        listener: (context, state) {
-          if (state is MovieDetailError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-          } else if (state is MovieWatchlist) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.message),
-              duration: Duration(seconds: 1),
-            ));
-          }
-        },
-        builder: (context, state) {
-          if (state is MovieDetailLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is MovieDetailLoaded) {
-            final movie = state.result;
-            return SafeArea(
-              child: DetailContent(
-                movie,
-                state.isAddedToWatchlist,
-              ),
-            );
-          } else if (state is MovieWatchlist) {
-            final movie = state.movie;
-            return SafeArea(
-              child: DetailContent(
-                movie,
-                state.isAddedToWatchlist,
-              ),
-            );
-          } else if (state is MovieDetailError) {
-            return Text(state.message);
-          } else {
-            return Text("");
-          }
-        },
-      ),
-    );
+        body: movieDetailState is MovieDetailLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : movieDetailState is MovieDetailError
+                ? Center(
+                    child: Text(movieDetailState.message),
+                  )
+                : (movieDetailState is MovieDetailLoaded)
+                    ? SafeArea(
+                        child: DetailContent(
+                          movieDetailState.result,
+                          isAddedToWatchList,
+                          recommendationState is RecommendationLoaded
+                              ? recommendationState.movies
+                              : List.empty(),
+                        ),
+                      )
+                    : const Center(
+                        child: Text("Nothing to see here"),
+                      ));
   }
 }
 
 class DetailContent extends StatelessWidget {
   final MovieDetail movie;
   final bool isAddedWatchlist;
+  final List<Movie> recommendations;
 
-  DetailContent(this.movie, this.isAddedWatchlist);
+  static const watchlistAddSuccessMessage = 'Added to Watchlist';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
+
+  DetailContent(this.movie, this.isAddedWatchlist, this.recommendations);
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +119,41 @@ class DetailContent extends StatelessWidget {
                               style: kHeading5,
                             ),
                             ElevatedButton(
-                              onPressed: () async {
+                              onPressed: () {
                                 if (!isAddedWatchlist) {
-                                  BlocProvider.of<MovieDetailBloc>(context)
-                                      .saveToWatchlist(movie, true);
+                                  BlocProvider.of<WatchlistMovieBloc>(context)
+                                    ..add(AddToWatchList(movie));
                                 } else {
-                                  await BlocProvider.of<MovieDetailBloc>(
-                                          context)
-                                      .removeFromWatchlist(movie, false);
+                                  BlocProvider.of<WatchlistMovieBloc>(context)
+                                    ..add(RemoveWatchList(movie));
+                                }
+
+                                final message = context.select<
+                                    WatchlistMovieBloc,
+                                    String>((bloc) => (bloc.state
+                                        is WatchlistMovieStatus)
+                                    ? (bloc.state as WatchlistMovieStatus)
+                                                .result ==
+                                            false
+                                        ? watchlistAddSuccessMessage
+                                        : watchlistRemoveSuccessMessage
+                                    : '');
+
+                                if (message == watchlistAddSuccessMessage ||
+                                    message == watchlistRemoveSuccessMessage) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(message),
+                                    duration: Duration(seconds: 1),
+                                  ));
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Text(message),
+                                        );
+                                      });
                                 }
                               },
                               child: Row(
@@ -176,13 +199,13 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            BlocBuilder<RecommendationsBloc,
-                                RecomendationState>(builder: (context, state) {
-                              if (state is RecomendationLoading) {
+                            BlocBuilder<MovieRecommendationBloc,
+                                RecommendationState>(builder: (context, state) {
+                              if (state is RecommendationLoading) {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
-                              } else if (state is RecomendationLoaded) {
+                              } else if (state is RecommendationLoaded) {
                                 return buildRecommendationCard(state.movies);
                               } else {
                                 return Text("");

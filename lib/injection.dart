@@ -1,19 +1,21 @@
-import 'package:ditonton/bloc/search_movie_bloc.dart';
-import 'package:ditonton/bloc/search_tv_bloc.dart';
-import 'package:ditonton/domain/usecases/search_movies.dart';
-import 'package:ditonton/domain/usecases/search_tv.dart';
-import 'package:movie/bloc/nowplaying_movies_bloc.dart';
-import 'package:movie/bloc/popular_movies_bloc.dart';
-import 'package:movie/bloc/top_rated_movies_bloc.dart';
-import 'package:movie/bloc/watchlist_movie_bloc.dart';
-import 'package:movie/bloc/movie_detail_bloc.dart';
-import 'package:movie/bloc/recommendations_bloc.dart';
-import 'package:tv/bloc/recommendations_bloc.dart';
-import 'package:tv/bloc/on_air_tv_bloc.dart';
-import 'package:tv/bloc/popular_tv_bloc.dart';
-import 'package:tv/bloc/top_rated_tv_bloc.dart';
-import 'package:tv/bloc/tv_detail_bloc.dart';
-import 'package:tv/bloc/watchlist_tv_bloc.dart';
+import 'package:search/presentation/bloc/search_movie_bloc.dart';
+import 'package:search/presentation/bloc/search_tv_bloc.dart';
+import 'package:search/domain/usecases/search_movies.dart';
+import 'package:search/domain/usecases/search_tv.dart';
+import 'package:movie/presentation/bloc/nowplaying_movies_bloc.dart';
+import 'package:movie/presentation/bloc/popular_movies_bloc.dart';
+import 'package:movie/presentation/bloc/top_rated_movies_bloc.dart';
+import 'package:movie/presentation/bloc/watchlist_movie_bloc.dart';
+import 'package:movie/presentation/bloc/movie_detail_bloc.dart';
+import 'package:tv/presentation/bloc/recommendations_bloc.dart';
+import 'package:movie/presentation/bloc/recommendations_bloc.dart';
+import 'package:tv/presentation/bloc/on_air_tv_bloc.dart';
+import 'package:tv/presentation/bloc/popular_tv_bloc.dart';
+import 'package:tv/presentation/bloc/top_rated_tv_bloc.dart';
+import 'package:tv/presentation/bloc/tv_detail_bloc.dart';
+import 'package:tv/presentation/bloc/watchlist_tv_bloc.dart';
+import 'package:tv/presentation/bloc/watchlist_page_bloc.dart';
+import 'package:movie/presentation/bloc/watchlist_page_bloc.dart';
 import 'package:movie/data/datasources/db/movie_database_helper.dart';
 import 'package:movie/data/datasources/movie_local_data_source.dart';
 import 'package:movie/data/datasources/movie_remote_data_source.dart';
@@ -64,26 +66,20 @@ void init() {
   locator.registerFactory(
     () => MovieDetailBloc(
       locator(),
-      locator(),
-      locator(),
-      locator(),
     ),
   );
 
   locator.registerFactory(
     () => TvDetailBloc(
       locator(),
-      locator(),
-      locator(),
-      locator(),
     ),
   );
 
-  locator.registerFactory(() => RecommendationsBloc(
+  locator.registerFactory(() => MovieRecommendationBloc(
         locator(),
       ));
 
-  locator.registerFactory(() => TvRecommendationsBloc(
+  locator.registerFactory(() => TvRecommendationBloc(
         locator(),
       ));
 
@@ -120,12 +116,26 @@ void init() {
   );
   locator.registerFactory(
     () => WatchlistMovieBloc(
-      getWatchlistMovies: locator(),
+      locator(),
+      locator(),
+      locator(),
     ),
   );
   locator.registerFactory(
     () => WatchlistTvBloc(
-      getWatchlistTv: locator(),
+      locator(),
+      locator(),
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => TvWatchlistPageBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => MovieWatchlistPageBloc(
+      locator(),
     ),
   );
 

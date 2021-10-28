@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:tv/bloc/on_air_tv_bloc.dart';
+import 'package:tv/presentation/bloc/on_air_tv_bloc.dart';
 import 'package:tv/tv.dart';
 import 'package:tv/domain/entities/tv.dart';
 import 'package:tv/domain/usecases/get_on_air_tv.dart';

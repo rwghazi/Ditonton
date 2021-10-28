@@ -29,6 +29,8 @@ dependencies:
     path: movie
   tv:
     path: tv
+  search:
+    path: search
   flutter_bloc: ^7.3.0
   firebase_core: ^1.7.0
   firebase_crashlytics: ^2.2.3

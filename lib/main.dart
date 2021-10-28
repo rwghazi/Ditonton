@@ -1,19 +1,21 @@
-import 'package:ditonton/bloc/search_movie_bloc.dart';
-import 'package:ditonton/bloc/search_tv_bloc.dart';
-import 'package:ditonton/presentation/pages/movie_search_page.dart';
-import 'package:ditonton/presentation/pages/tv_search_page.dart';
-import 'package:movie/bloc/nowplaying_movies_bloc.dart';
-import 'package:movie/bloc/popular_movies_bloc.dart';
-import 'package:movie/bloc/top_rated_movies_bloc.dart';
-import 'package:movie/bloc/watchlist_movie_bloc.dart';
-import 'package:movie/bloc/movie_detail_bloc.dart';
-import 'package:movie/bloc/recommendations_bloc.dart';
-import 'package:tv/bloc/recommendations_bloc.dart';
-import 'package:tv/bloc/on_air_tv_bloc.dart';
-import 'package:tv/bloc/popular_tv_bloc.dart';
-import 'package:tv/bloc/top_rated_tv_bloc.dart';
-import 'package:tv/bloc/tv_detail_bloc.dart';
-import 'package:tv/bloc/watchlist_tv_bloc.dart';
+import 'package:search/presentation/bloc/search_movie_bloc.dart';
+import 'package:search/presentation/bloc/search_tv_bloc.dart';
+import 'package:search/presentation/pages/movie_search_page.dart';
+import 'package:search/presentation/pages/tv_search_page.dart';
+import 'package:movie/presentation/bloc/nowplaying_movies_bloc.dart';
+import 'package:movie/presentation/bloc/popular_movies_bloc.dart';
+import 'package:movie/presentation/bloc/top_rated_movies_bloc.dart';
+import 'package:movie/presentation/bloc/watchlist_movie_bloc.dart';
+import 'package:movie/presentation/bloc/movie_detail_bloc.dart';
+import 'package:movie/presentation/bloc/recommendations_bloc.dart';
+import 'package:movie/presentation/bloc/watchlist_page_bloc.dart';
+import 'package:tv/presentation/bloc/recommendations_bloc.dart';
+import 'package:tv/presentation/bloc/on_air_tv_bloc.dart';
+import 'package:tv/presentation/bloc/popular_tv_bloc.dart';
+import 'package:tv/presentation/bloc/top_rated_tv_bloc.dart';
+import 'package:tv/presentation/bloc/tv_detail_bloc.dart';
+import 'package:tv/presentation/bloc/watchlist_tv_bloc.dart';
+import 'package:tv/presentation/bloc/watchlist_page_bloc.dart';
 import 'package:movie/presentation/pages/movie_detail_page.dart';
 import 'package:movie/presentation/pages/popular_movies_page.dart';
 import 'package:tv/presentation/pages/on_air_tv_page.dart';
@@ -23,6 +25,8 @@ import 'package:movie/presentation/pages/watchlist_movies_page.dart';
 import 'package:tv/presentation/pages/tv_detail_page.dart';
 import 'package:tv/presentation/pages/watchlist_tv_page.dart';
 import 'package:tv/presentation/pages/top_rated_tv_page.dart';
+import 'package:tv/utils/utils.dart';
+import 'package:movie/utils/utils.dart';
 import 'package:movie/movie.dart';
 import 'package:about/about.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +35,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'injection.dart' as di;
-import 'presentation/pages/home_page.dart';
+import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +56,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<RecommendationsBloc>(),
+          create: (_) => di.locator<MovieRecommendationBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TopRatedMoviesBloc>(),
@@ -64,13 +68,16 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistMovieBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<MovieWatchlistPageBloc>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<OnAirTvBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TvDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<TvRecommendationsBloc>(),
+          create: (_) => di.locator<TvRecommendationBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TopRatedTvBloc>(),
@@ -80,6 +87,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<WatchlistTvBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvWatchlistPageBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<SearchMovieBloc>(),
@@ -98,6 +108,7 @@ class MyApp extends StatelessWidget {
           textTheme: kTextTheme,
         ),
         home: HomePage(),
+        navigatorObservers: [routeObserver, routeObserver2],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/home':
@@ -138,7 +149,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) {
                 return Scaffold(
                   body: Center(
-                    child: Text('Page not found :('),
+                    child: Text('Page not found'),
                   ),
                 );
               });

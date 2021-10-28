@@ -9,9 +9,6 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:tv/domain/entities/tv_detail.dart' as _i7;
 import 'package:tv/domain/repositories/tv_repository.dart' as _i2;
 import 'package:tv/domain/usecases/get_tv_detail.dart' as _i4;
-import 'package:tv/domain/usecases/get_watchlist_status.dart' as _i8;
-import 'package:tv/domain/usecases/remove_watchlist.dart' as _i10;
-import 'package:tv/domain/usecases/save_watchlist.dart' as _i9;
 import 'package:tv/tv.dart' as _i6;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -44,71 +41,6 @@ class MockGetTvDetail extends _i1.Mock implements _i4.GetTvDetail {
               returnValue: Future<_i3.Either<_i6.Failure, _i7.TvDetail>>.value(
                   _FakeEither_1<_i6.Failure, _i7.TvDetail>()))
           as _i5.Future<_i3.Either<_i6.Failure, _i7.TvDetail>>);
-  @override
-  String toString() => super.toString();
-}
-
-/// A class which mocks [GetWatchListTvStatus].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGetWatchListTvStatus extends _i1.Mock
-    implements _i8.GetWatchListTvStatus {
-  MockGetWatchListTvStatus() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.TvRepository get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeTvRepository_0()) as _i2.TvRepository);
-  @override
-  _i5.Future<bool> execute(int? id) =>
-      (super.noSuchMethod(Invocation.method(#execute, [id]),
-          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
-  @override
-  String toString() => super.toString();
-}
-
-/// A class which mocks [SaveWatchlist].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSaveWatchlist extends _i1.Mock implements _i9.SaveWatchlist {
-  MockSaveWatchlist() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.TvRepository get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeTvRepository_0()) as _i2.TvRepository);
-  @override
-  _i5.Future<_i3.Either<_i6.Failure, String>> execute(_i7.TvDetail? movie) =>
-      (super.noSuchMethod(Invocation.method(#execute, [movie]),
-              returnValue: Future<_i3.Either<_i6.Failure, String>>.value(
-                  _FakeEither_1<_i6.Failure, String>()))
-          as _i5.Future<_i3.Either<_i6.Failure, String>>);
-  @override
-  String toString() => super.toString();
-}
-
-/// A class which mocks [RemoveWatchlist].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockRemoveWatchlist extends _i1.Mock implements _i10.RemoveWatchlist {
-  MockRemoveWatchlist() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.TvRepository get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeTvRepository_0()) as _i2.TvRepository);
-  @override
-  _i5.Future<_i3.Either<_i6.Failure, String>> execute(_i7.TvDetail? movie) =>
-      (super.noSuchMethod(Invocation.method(#execute, [movie]),
-              returnValue: Future<_i3.Either<_i6.Failure, String>>.value(
-                  _FakeEither_1<_i6.Failure, String>()))
-          as _i5.Future<_i3.Either<_i6.Failure, String>>);
   @override
   String toString() => super.toString();
 }

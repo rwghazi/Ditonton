@@ -57,7 +57,7 @@ void main() {
 
   group('get Popular Movies', () {
     final tMovieList =
-        MovieResponse.fromJson(json.decode(readJson('dummy_data/popular.json')))
+        MovieResponse.fromJson(json.decode(readJson('dummy_data/popular_movie.json')))
             .movieList;
 
     test('should return list of movies when response is success (200)',
@@ -65,7 +65,7 @@ void main() {
       // arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY')))
           .thenAnswer((_) async =>
-              http.Response(readJson('dummy_data/popular.json'), 200));
+              http.Response(readJson('dummy_data/popular_movie.json'), 200));
       // act
       final result = await dataSource.getPopularMovies();
       // assert
@@ -87,14 +87,14 @@ void main() {
 
   group('get Top Rated Movies', () {
     final tMovieList = MovieResponse.fromJson(
-            json.decode(readJson('dummy_data/top_rated.json')))
+            json.decode(readJson('dummy_data/top_rated_movie.json')))
         .movieList;
 
     test('should return list of movies when response code is 200 ', () async {
       // arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY')))
           .thenAnswer((_) async =>
-              http.Response(readJson('dummy_data/top_rated.json'), 200));
+              http.Response(readJson('dummy_data/top_rated_movie.json'), 200));
       // act
       final result = await dataSource.getTopRatedMovies();
       // assert

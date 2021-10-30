@@ -1,3 +1,4 @@
+import 'package:ditonton/utils/ssl_pinning.dart';
 import 'package:search/presentation/bloc/search_movie_bloc.dart';
 import 'package:search/presentation/bloc/search_tv_bloc.dart';
 import 'package:search/domain/usecases/search_movies.dart';
@@ -44,7 +45,6 @@ import 'package:tv/domain/usecases/get_on_air_tv.dart';
 import 'package:tv/domain/usecases/get_popular_tv.dart';
 import 'package:tv/domain/usecases/get_watchlist_tv.dart';
 import 'package:tv/domain/repositories/tv_repository.dart';
-import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;
@@ -192,5 +192,6 @@ void init() {
   locator.registerLazySingleton<TvDatabaseHelper>(() => TvDatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  //locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => SSLPinning.client);
 }

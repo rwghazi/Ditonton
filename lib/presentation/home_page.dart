@@ -15,8 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/utils/routes.dart';
-import 'package:tv/utils/routes.dart';
+import 'package:ditonton/utils/routes.dart';
 
 class HomePage extends StatefulWidget {
   @override

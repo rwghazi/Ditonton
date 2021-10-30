@@ -1,3 +1,4 @@
+import 'package:ditonton/utils/ssl_pinning.dart';
 import 'package:search/presentation/bloc/search_movie_bloc.dart';
 import 'package:search/presentation/bloc/search_tv_bloc.dart';
 import 'package:search/presentation/pages/movie_search_page.dart';
@@ -35,10 +36,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'injection.dart' as di;
-import 'home_page.dart';
+import 'presentation/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SSLPinning.init();
   await Firebase.initializeApp();
   di.init();
   runApp(MyApp());
